@@ -59,7 +59,7 @@ export const prepareLog = (t: any, depth = 0): string =>
     ? stringifyArray(t.map((e) => prepareLog(e, depth + 1)))
     : typeof t === "object" && t !== null
     ? stringifyObject(alterObjectValues(t, (e) => prepareLog(e, depth + 1)))
-    : depth < 0 || typeof t !== "string"
+    : depth > 0 || typeof t !== "string"
     ? colorize(t)
     : t;
 
