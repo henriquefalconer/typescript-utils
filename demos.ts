@@ -30,7 +30,7 @@ const alterObjectValuesDemo = () => {
   };
 
   demoPrint`
-    ===== (1/7) alterObjectValues: =====
+    ===== (1/8) alterObjectValues: =====
 
     Antes: ${entry}
 
@@ -44,7 +44,7 @@ const keySortDemo = () => {
   const entry = [{ foo: 30 }, { foo: 1 }];
 
   demoPrint`
-    ===== (2/7) keySort: =====
+    ===== (2/8) keySort: =====
 
     Antes: ${[...entry]}
 
@@ -61,7 +61,7 @@ const convertUndefinedToNullDemo = () => {
   };
 
   demoPrint`
-    ===== (3/7) convertUndefinedToNull: =====
+    ===== (3/8) convertUndefinedToNull: =====
 
     Antes: ${entry}
 
@@ -78,7 +78,7 @@ const convertNullToUndefinedDemo = () => {
   };
 
   demoPrint`
-    ===== (4/7) convertNullToUndefined: =====
+    ===== (4/8) convertNullToUndefined: =====
 
     Antes: ${entry}
 
@@ -92,7 +92,7 @@ const separateArrayDemo = () => {
   const entry = [1, 9, 0];
 
   demoPrint`
-    ===== (5/7) separateArray: =====
+    ===== (5/8) separateArray: =====
 
     Antes: ${[...entry]}
 
@@ -106,7 +106,7 @@ const toggleArrayItemDemo = () => {
   const entry = [1, 9, 0];
 
   demoPrint`
-    ===== (6/7) toggleArrayItem: =====
+    ===== (6/8) toggleArrayItem: =====
 
     Antes: ${[...entry]}
 
@@ -122,7 +122,7 @@ const toggleArrayItemDemo = () => {
 
 const waitDemo = async () => {
   demoPrint`
-    ===== (7/7) wait: =====
+    ===== (7/8) wait: =====
 
     Operação: wait(3000) (esperar 3 segundos)
   `;
@@ -134,7 +134,7 @@ const waitDemo = async () => {
 
 const expandedConsoleLogDemo = async () => {
   demoPrint`
-    ===== (7/7) expandedConsoleLog: =====
+    ===== (8/8) expandedConsoleLog: =====
 
     Operação: console.log({ foo: { qox: { quux: { quuz: { corge: { grault: { garply: { waldo: 10 } } } } } } }, bar: 'baz' }) (com a importação do arquivo expandedConsoleLog)
 
