@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "demos": "ts-node-dev demos.ts"
+    "demos": "ts-node demos.ts"
   },
   "devDependencies": {
     "@types/node": "^16.10.2",
-    "ts-node-dev": "^1.1.1",
+    "ts-node": "^10.4.0",
     "typescript": "^4.1.5"
   }
 }
