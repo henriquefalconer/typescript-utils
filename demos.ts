@@ -76,7 +76,7 @@ const toggleArrayItemDemo = () =>
 const waitDemo = async () => {
   await demoPrint(undefined, () => wait(3000));
 
-  console.log("\nTempo concluído.\n");
+  console.log("Result: Tempo concluído.\n");
 };
 
 const expandedConsoleLogDemo = async () =>
