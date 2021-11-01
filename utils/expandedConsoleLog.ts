@@ -17,10 +17,16 @@ const colorize = (t: any): string => {
     case "boolean":
     case "number":
       return `\x1b[33m${t}\x1b[0m`;
+    case "bigint":
+      return `\x1b[33m${t}n\x1b[0m`;
     case "string":
       return `\x1b[32m'${t}'\x1b[0m`;
+    case "symbol":
+      return `\x1b[32m${t.toString()}\x1b[0m`;
+    case "function":
+      return `\x1b[32m${t}\x1b[0m`;
     default:
-      throw new Error(`Unrecognized value type: ${typeof t} (${t})`);
+      throw new Error(`unrecognized value type: ${typeof t}`);
   }
 };
 
