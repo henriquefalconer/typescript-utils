@@ -1,0 +1,13 @@
+{
+  "name": "typescript-utils",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "demos": "ts-node-dev demos.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^16.10.2",
+    "ts-node-dev": "^1.1.1",
+    "typescript": "^4.1.5"
+  }
+}
