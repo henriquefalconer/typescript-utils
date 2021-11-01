@@ -14,6 +14,7 @@ const colorize = (t: any): string => {
   if (t === undefined) return `\x1b[2m${t}\x1b[0m`;
 
   switch (typeof t) {
+    case "boolean":
     case "number":
       return `\x1b[33m${t}\x1b[0m`;
     case "string":
@@ -52,12 +53,11 @@ export const prepareLog = (t: any, depth = 0): string =>
     ? stringifyArray(t.map((e) => prepareLog(e, depth + 1)))
     : typeof t === "object" && t !== null
     ? stringifyObject(alterObjectValues(t, (e) => prepareLog(e, depth + 1)))
-    : depth > 0
+    : depth < 0 || typeof t !== "string"
     ? colorize(t)
     : t;
 
 console.log = (...data: any[]) =>
   data
-    .map(prepareLog)
-    .map((d, i) => d + (i < data.length - 1 ? " " : "\n"))
+    .map((d, i) => prepareLog(d) + (i < data.length - 1 ? " " : "\n"))
     .forEach((d) => process.stdout.write(d));
