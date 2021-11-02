@@ -26,7 +26,7 @@ const colorize = (t: any): string => {
     case "function":
       return `\x1b[32m${t}\x1b[0m`;
     default:
-      throw new Error(`unrecognized value type: ${typeof t}`);
+      throw new Error(`unimplemented colorization of value type: ${typeof t}`);
   }
 };
 
