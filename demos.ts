@@ -21,18 +21,22 @@ type Fn<T> = (t: T) => unknown;
 const demoPrint = async <T>(arg: T, ...fns: [string, ...Fn<T>[]] | Fn<T>[]) => {
   count++;
   for (const [fn, i] of enumerate(fns)) {
-    const name = typeof fn === "string" ? fn : "$3$4";
-    const top = `===== \x1b[1m\x1b[34m(${count}/${total}) ${name}:\x1b[0m =====`;
+    const counter = `(${count}/${total})`;
     const entry = arg ? `\n\nEntry: ${prepareLog(arg)}` : "";
-    const operation = typeof fn !== "string" ? "\n\nOperation: $1$3$4$5$6" : "";
+    const top = (title: string) =>
+      i === 0
+        ? `\n===== \x1b[1m\x1b[34m${counter} ${title}:\x1b[0m =====${entry}`
+        : "";
 
     process.stdout.write(
-      fn
-        .toString()
-        .replace(
-          /^(.*)\(0, ((\w+)_1.default|\w+_1.(\w+))\)(.*)|(.*)/,
-          (i === 0 ? `\n${top}${entry}` : "") + operation
-        )
+      typeof fn === "string"
+        ? top(fn)
+        : fn
+            .toString()
+            .replace(
+              /^(.*)\(0, ((\w+)_1.default|\w+_1.(\w+))\)(.*)|(.*)/,
+              top("$3$4") + "\n\nOperation: $1$3$4$5$6"
+            )
     );
 
     if (typeof fn !== "function") continue;
