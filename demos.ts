@@ -11,14 +11,14 @@ import wait from "./utils/wait";
 import { prepareLog } from "./utils/expandedConsoleLog";
 
 // Print funcs:
-const enumerate = <T>(arr: T[]) => arr.map((v, i) => [v, i]);
+const enumerate = <T>(arr: T[]) => arr.map((v, i) => [v, i] as const);
 
 let total: number;
 let count: number = 0;
 
 type Fn<T> = (t: T) => unknown;
 
-const demoPrint = async <T>(arg: T, ...fns: (string | Fn<T>)[]) => {
+const demoPrint = async <T>(arg: T, ...fns: [string, ...Fn<T>[]] | Fn<T>[]) => {
   count++;
   for (const [fn, i] of enumerate(fns)) {
     const name = typeof fn === "string" ? fn : "$3$4";
