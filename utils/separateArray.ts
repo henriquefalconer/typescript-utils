@@ -6,7 +6,7 @@ const separateArray = <T>(arr: T[], segragator: (t: T) => boolean) =>
       arr.push(t);
       return acc;
     },
-    [[], []] as T[][]
+    [[], []] as [T[], T[]]
   );
 
 export default separateArray;
