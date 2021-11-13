@@ -16,45 +16,40 @@ type Path<
     : S
   : S;
 
-type RemoveFirstBracket<P extends string> = P extends `${any}]${infer Rest}`
-  ? Rest extends `.${infer Tail}`
-    ? Tail
-    : Rest
-  : P;
-
-type GetHead<P extends string> = P extends `${infer Head}.${any}`
-  ? Head extends `[${infer SecHead}][${any}`
-    ? `[${SecHead}]`
-    : Head extends `[${infer SecHead}]${any}`
-    ? `[${SecHead}]`
-    : Head extends `${infer SecHead}[${any}`
+type GetHead<P extends string> = P extends `[${infer Head}]${any}`
+  ? `[${Head}]`
+  : P extends `${infer Head}.${any}`
+  ? Head extends `${infer SecHead}[${any}`
     ? SecHead
     : Head
-  : P extends `[${infer Head}]${any}`
-  ? `[${Head}]`
   : P extends `${infer Head}[${any}`
   ? Head
   : P;
 
-type GetTail<P extends string> = P extends `[${any}`
-  ? RemoveFirstBracket<P>
-  : P extends `${infer Head}[${infer Tail}`
-  ? Head extends `${any}.${infer SecTail}`
-    ? `${SecTail}[${Tail}`
-    : `[${Tail}`
+type RemoveInitialDot<P> = P extends `.${infer S}` ? S : P;
+
+type GetTail<P extends string> = P extends `[${any}]${infer Tail}`
+  ? RemoveInitialDot<Tail>
+  : P extends `${infer Head}.${infer Tail}`
+  ? Head extends `${any}[${infer SecHead}`
+    ? `[${SecHead}${Tail}`
+    : Tail
   : P extends `${any}[${infer Tail}`
   ? `[${Tail}`
-  : P extends `${any}.${infer Tail}`
-  ? Tail
   : "";
 
-type GetPathValue<O, P extends Path<O>, H = GetHead<P>> = H extends keyof O
-  ? GetPathValue<O[H], GetTail<P>>
+type GetArrayElem<A> = A extends (infer E)[] ? E : never;
+
+type GetPathValue<
+  O,
+  P extends Path<O>,
+  R = RemoveNullOrUndefined<O>,
+  H = GetHead<P>
+> = H extends keyof R
+  ? GetPathValue<R[H], GetTail<P>> | (O extends undefined ? undefined : never)
   : H extends `[${any}]`
-  ? O extends Array<infer E>
-    ? GetPathValue<E, GetTail<P>> | undefined
-    : never
-  : O;
+  ? GetPathValue<GetArrayElem<R>, GetTail<P>> | undefined
+  : R;
 
 const getNextAccessor = (s: string): [string | number, string] => {
   const [accessor, rest] = s.split(
