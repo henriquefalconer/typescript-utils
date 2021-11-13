@@ -51,7 +51,7 @@ type GetPathValue<
   ? GetPathValue<GetArrayElem<R>, GetTail<P>> | undefined
   : R;
 
-const getNextAccessor = (s: string): [string | number, string] => {
+const getNextAccessor = (s: string): [string | number, string | undefined] => {
   const [accessor, rest] = s.split(
     /(?<=^[^.[]*)\.|(?<=^[^.[]*)(?=\[)|(?<=^\[[^\]]+\])\.?/
   );
