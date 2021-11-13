@@ -135,3 +135,26 @@ console.log({
 }
 // Expands instead of limiting representantion simply to `[Object]` or `[Array]`
 ```
+
+---
+
+### accessValueOnPath:
+
+```node
+// Data: 
+const data = {
+  foo: {
+    qox: [
+      { quux: { quuz: { corge: { grault: 10 } } } },
+      { quux: { quuz: { corge: { grault: 20 } } } },
+    ],
+  },
+  bar: "baz",
+}
+
+// Operation: 
+const result = accessValueOnPath(data, "foo.qox[1].quux.quuz.corge")
+
+// Result: 
+{ grault: 20 }
+```
