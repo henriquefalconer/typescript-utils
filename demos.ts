@@ -4,7 +4,7 @@ import {
   convertUndefinedToNull,
   convertNullToUndefined,
 } from "./utils/nullishConversion";
-import separateArray from "./utils/separateArray";
+import segregateArray from "./utils/segregateArray";
 import toggleArrayItem from "./utils/toggleArrayItem";
 import accessValueFromPath from "./utils/accessValueFromPath";
 import wait from "./utils/wait";
@@ -68,8 +68,8 @@ const convertNullToUndefinedDemo = () =>
     convertNullToUndefined(entry)
   );
 
-const separateArrayDemo = () =>
-  demoPrint([1, 9, 0], (entry) => separateArray(entry, (o) => o < 9));
+const segregateArrayDemo = () =>
+  demoPrint([1, 9, 0], (entry) => segregateArray(entry, (o) => o < 9));
 
 const toggleArrayItemDemo = () =>
   demoPrint(
@@ -116,7 +116,7 @@ const runDemos = async () => {
     keySortDemo,
     convertUndefinedToNullDemo,
     convertNullToUndefinedDemo,
-    separateArrayDemo,
+    segregateArrayDemo,
     toggleArrayItemDemo,
     waitDemo,
     expandedConsoleLogDemo,
