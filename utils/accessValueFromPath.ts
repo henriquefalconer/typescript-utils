@@ -16,14 +16,18 @@ type Path<
     : S
   : S;
 
-type RemoveFirstBracket<P extends string> = P extends `${any}].${infer Tail}`
-  ? `${Tail}`
-  : P extends `${any}]${infer Tail}`
-  ? `${Tail}`
+type RemoveFirstBracket<P extends string> = P extends `${any}]${infer Rest}`
+  ? Rest extends `.${infer Tail}`
+    ? Tail
+    : Rest
   : P;
 
-type SplitHead<P extends string> = P extends `${infer Head}.${any}`
-  ? Head extends `${infer SecHead}[${any}`
+type GetHead<P extends string> = P extends `${infer Head}.${any}`
+  ? Head extends `[${infer SecHead}][${any}`
+    ? `[${SecHead}]`
+    : Head extends `[${infer SecHead}]${any}`
+    ? `[${SecHead}]`
+    : Head extends `${infer SecHead}[${any}`
     ? SecHead
     : Head
   : P extends `[${infer Head}]${any}`
@@ -32,7 +36,7 @@ type SplitHead<P extends string> = P extends `${infer Head}.${any}`
   ? Head
   : P;
 
-type SplitTail<P extends string> = P extends `[${any}`
+type GetTail<P extends string> = P extends `[${any}`
   ? RemoveFirstBracket<P>
   : P extends `${infer Head}[${infer Tail}`
   ? Head extends `${any}.${infer SecTail}`
@@ -40,55 +44,44 @@ type SplitTail<P extends string> = P extends `[${any}`
     : `[${Tail}`
   : P extends `${any}[${infer Tail}`
   ? `[${Tail}`
+  : P extends `${any}.${infer Tail}`
+  ? Tail
   : "";
 
-type RemoveBrackets<S extends string> = S extends `[${infer Tail}]` ? Tail : S;
-
-type GetPathValue<O, P extends Path<O>, N = SplitHead<P>> = N extends keyof O
-  ? GetPathValue<O[N], SplitTail<P>>
-  : N extends `[${any}]`
+type GetPathValue<O, P extends Path<O>, H = GetHead<P>> = H extends keyof O
+  ? GetPathValue<O[H], GetTail<P>>
+  : H extends `[${any}]`
   ? O extends Array<infer E>
-    ? GetPathValue<E, SplitTail<P>>
+    ? GetPathValue<E, GetTail<P>> | undefined
     : never
   : O;
 
-type MockObject = {
-  name: string;
-  weight: number[];
-  data: {
-    birthdate: string;
-    right: { real: boolean }[][];
-    favoriteWord: string;
-  };
-  evaluations: {
-    mark: number;
-    id: string;
-    awnsers: string[];
-  }[];
-}[];
+// [3][8][8][8].c[2][4].pa
+// [0].name
+// foo.qox.quux.quuz.corge
+// const head: GetHead<"quuz.corge"> = "";
+// const tail: GetTail<"quuz.corge"> = "";
 
-const noBrackets: RemoveBrackets<"[0901]"> = "";
+// const path: GetPathValue<{ foo: { bar: 3 }[] }, "foo[0].bar">;
 
-const bracket: RemoveFirstBracket<"[0][2][3]"> = "";
+const getNextAccessor = (s: string): [string | number, string] => {
+  const [accessor, rest] = s.split(
+    /(?<=^[^.[]*)\.|(?<=^[^.[]*)(?=\[)|(?<=^\[[^\]]+\])\.?/
+  );
+  if (accessor.startsWith("["))
+    return [Number(accessor.replace(/^\[(.*)\]$/, "$1")), rest];
+  return [accessor, rest];
+};
 
-const head: SplitHead<"aap.d[3].c.d[2][4].pa"> = "";
-const tail: SplitTail<"aap.d[3].c.d[2][4].pa"> = "";
-
-const item: GetPathValue<MockObject, "[0].weight"> = "";
-
-const path: Path<MockObject> = "[1].evaluations[0]";
-
-const getNextAccessor = <O, P extends Path<O> = Path<O>, N = SplitHead<P>>(
-  s: P & string
-): [N, SplitTail<P>] => s.split(/(?<=^[^.[]*)[.[]/) as [N, SplitTail<P>];
-
-const accessValueFromPath = <O, P extends Path<O> = Path<O>>(
-  o: O,
-  path: P
-): GetPathValue<O, P> => {
-  if (!path) return o as GetPathValue<O, P>;
-  const [accessor, rest] = getNextAccessor<O>(path);
-  return accessValueFromPath(o[accessor], rest);
+const accessValueFromPath = <O, P extends Path<O> = Path<O>>(o: O, path: P) => {
+  let value: any = o;
+  let p: string | number | undefined = path;
+  while (p && value) {
+    const [accessor, rest] = getNextAccessor(p);
+    value = value?.[accessor];
+    p = rest;
+  }
+  return value as GetPathValue<O, P>;
 };
 
 export default accessValueFromPath;
