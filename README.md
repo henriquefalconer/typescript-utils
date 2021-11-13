@@ -62,14 +62,14 @@ const result = convertNullToUndefined(data)
 
 ---
 
-### separateArray:
+### segregateArray:
 
 ```node
 // Data: 
 const data = [ 1, 9, 0 ]
 
 // Operation: 
-const result = separateArray(data, (o) => o < 9)
+const result = segregateArray(data, (o) => o < 9)
 
 // Result: 
 [ [ 1, 0 ], [ 9 ] ]
