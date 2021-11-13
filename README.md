@@ -5,11 +5,11 @@ Useful functions for node projects. All type-checked and without any node depend
 ### alterObjectValues:
 
 ```node
-// Entry: 
-{ foo: 1, bar: 2 }
+// Data: 
+const data = { foo: 1, bar: 2 }
 
 // Operation: 
-(entry) => alterObjectValues(entry, (value) => `baz ${value}`)
+const result = alterObjectValues(data, (value) => `baz ${value}`)
 
 // Result: 
 { foo: 'baz 1', bar: 'baz 2' }
@@ -20,11 +20,11 @@ Useful functions for node projects. All type-checked and without any node depend
 ### keySort:
 
 ```node
-// Entry: 
-[ { foo: 30 }, { foo: 1 } ]
+// Data: 
+const data = [ { foo: 30 }, { foo: 1 } ]
 
 // Operation: 
-(entry) => keySort(entry, (o) => o.foo)
+const result = keySort(data, (o) => o.foo)
 
 // Result: 
 [ { foo: 1 }, { foo: 30 } ]
@@ -35,11 +35,11 @@ Useful functions for node projects. All type-checked and without any node depend
 ### convertUndefinedToNull:
 
 ```node
-// Entry: 
-{ foo: undefined, bar: 'baz' }
+// Data: 
+const data = { foo: undefined, bar: 'baz' }
 
 // Operation: 
-(entry) => convertUndefinedToNull(entry)
+const result = convertUndefinedToNull(data)
 
 // Result: 
 { foo: null, bar: 'baz' }
@@ -50,11 +50,11 @@ Useful functions for node projects. All type-checked and without any node depend
 ### convertNullToUndefined:
 
 ```node
-// Entry: 
-{ foo: null, bar: 'baz' }
+// Data: 
+const data = { foo: null, bar: 'baz' }
 
 // Operation: 
-(entry) => convertNullToUndefined(entry)
+const result = convertNullToUndefined(data)
 
 // Result: 
 { foo: undefined, bar: 'baz' }
@@ -65,11 +65,11 @@ Useful functions for node projects. All type-checked and without any node depend
 ### separateArray:
 
 ```node
-// Entry: 
-[ 1, 9, 0 ]
+// Data: 
+const data = [ 1, 9, 0 ]
 
 // Operation: 
-(entry) => separateArray(entry, (o) => o < 9)
+const result = separateArray(data, (o) => o < 9)
 
 // Result: 
 [ [ 1, 0 ], [ 9 ] ]
@@ -80,17 +80,17 @@ Useful functions for node projects. All type-checked and without any node depend
 ### toggleArrayItem:
 
 ```node
-// Entry: 
-[ 1, 9, 0 ]
+// Data: 
+const data = [ 1, 9, 0 ]
 
 // Operation: 
-(entry) => toggleArrayItem(9, entry)
+let result = toggleArrayItem(9, data)
 
 // Result: 
 [ 1, 0 ]
 
 // Operation: 
-(entry) => toggleArrayItem(9, entry)
+result = toggleArrayItem(9, result)
 
 // Result: 
 [ 1, 0, 9 ]
@@ -101,11 +101,12 @@ Useful functions for node projects. All type-checked and without any node depend
 ### wait:
 
 ```node
-// Operation: 
-() => wait(3000)
+const call = async () => {
+  // Operation: 
+  await wait(3000) // Waits for 3000 milliseconds
+}
 
-// 3 seconds later:
-// Program resumes operation
+call()
 ```
 
 ---
@@ -116,7 +117,7 @@ Useful functions for node projects. All type-checked and without any node depend
 import "./utils/expandedConsoleLog";
 
 // Operation: 
-() => console.log({
+console.log({
     foo: {
         qox: {
             quux: { quuz: { corge: { grault: { garply: { waldo: 10 } } } } },
