@@ -6,6 +6,7 @@ import {
 } from "./utils/nullishConversion";
 import separateArray from "./utils/separateArray";
 import toggleArrayItem from "./utils/toggleArrayItem";
+import accessValueFromPath from "./utils/accessValueFromPath";
 import wait from "./utils/wait";
 
 import { prepareLog } from "./utils/expandedConsoleLog";
@@ -95,6 +96,20 @@ const expandedConsoleLogDemo = async () =>
     })
   );
 
+const accessValueFromPathDemo = () =>
+  demoPrint(
+    {
+      foo: {
+        qox: [
+          { quux: { quuz: { corge: { grault: 10 } } } },
+          { quux: { quuz: { corge: { grault: 20 } } } },
+        ],
+      },
+      bar: "baz",
+    },
+    (entry) => accessValueFromPath(entry, "foo.qox[1].quux.quuz.corge")
+  );
+
 const runDemos = async () => {
   const demos = [
     alterObjectValuesDemo,
@@ -105,6 +120,7 @@ const runDemos = async () => {
     toggleArrayItemDemo,
     waitDemo,
     expandedConsoleLogDemo,
+    accessValueFromPathDemo,
   ];
 
   total = demos.length;
