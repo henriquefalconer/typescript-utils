@@ -56,14 +56,6 @@ type GetPathValue<O, P extends Path<O>, H = GetHead<P>> = H extends keyof O
     : never
   : O;
 
-// [3][8][8][8].c[2][4].pa
-// [0].name
-// foo.qox.quux.quuz.corge
-// const head: GetHead<"quuz.corge"> = "";
-// const tail: GetTail<"quuz.corge"> = "";
-
-// const path: GetPathValue<{ foo: { bar: 3 }[] }, "foo[0].bar">;
-
 const getNextAccessor = (s: string): [string | number, string] => {
   const [accessor, rest] = s.split(
     /(?<=^[^.[]*)\.|(?<=^[^.[]*)(?=\[)|(?<=^\[[^\]]+\])\.?/
