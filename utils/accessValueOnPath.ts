@@ -65,7 +65,7 @@ const getNextAccessor = (s: string): [string | number, string] => {
   return [accessor, rest];
 };
 
-const accessValueFromPath = <O, P extends Path<O> = Path<O>>(o: O, path: P) => {
+const accessValueOnPath = <O, P extends Path<O> = Path<O>>(o: O, path: P) => {
   let value: any = o;
   let p: string | number | undefined = path;
   while (p && value) {
@@ -76,4 +76,4 @@ const accessValueFromPath = <O, P extends Path<O> = Path<O>>(o: O, path: P) => {
   return value as GetPathValue<O, P>;
 };
 
-export default accessValueFromPath;
+export default accessValueOnPath;

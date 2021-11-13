@@ -6,7 +6,7 @@ import {
 } from "./utils/nullishConversion";
 import segregateArray from "./utils/segregateArray";
 import toggleArrayItem from "./utils/toggleArrayItem";
-import accessValueFromPath from "./utils/accessValueFromPath";
+import accessValueOnPath from "./utils/accessValueOnPath";
 import wait from "./utils/wait";
 
 import { prepareLog } from "./utils/expandedConsoleLog";
@@ -96,7 +96,7 @@ const expandedConsoleLogDemo = async () =>
     })
   );
 
-const accessValueFromPathDemo = () =>
+const accessValueOnPathDemo = () =>
   demoPrint(
     {
       foo: {
@@ -107,7 +107,7 @@ const accessValueFromPathDemo = () =>
       },
       bar: "baz",
     },
-    (entry) => accessValueFromPath(entry, "foo.qox[1].quux.quuz.corge")
+    (entry) => accessValueOnPath(entry, "foo.qox[1].quux.quuz.corge")
   );
 
 const runDemos = async () => {
@@ -120,7 +120,7 @@ const runDemos = async () => {
     toggleArrayItemDemo,
     waitDemo,
     expandedConsoleLogDemo,
-    accessValueFromPathDemo,
+    accessValueOnPathDemo,
   ];
 
   total = demos.length;
