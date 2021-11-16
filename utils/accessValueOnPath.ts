@@ -60,7 +60,7 @@ const getNextAccessor = (s: string): [string | number, string | undefined] => {
   return [accessor, rest];
 };
 
-const accessValueOnPath = <O, P extends Path<O> = Path<O>>(o: O, path: P) => {
+const accessValueOnPath = <O, P extends Path<O>>(o: O, path: P) => {
   let value: any = o;
   let p: string | undefined = path;
   while (p && value) {
