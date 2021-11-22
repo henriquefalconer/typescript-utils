@@ -71,11 +71,16 @@ export const accessValueOnPath = <O, P extends Path<O>>(o: O, path: P) => {
   return value as GetPathValue<O, P>;
 };
 
-export const changeValueOnPath = <O, P extends Path<O>>(
+export const changeValueOnPath = <
+  O,
+  P extends Path<O>,
+  V extends GetPathValue<O, P> = GetPathValue<O, P>,
+  E extends O | undefined = O | Extract<GetPathValue<O, P>, undefined>
+>(
   o: O,
   path: P,
-  newValue: GetPathValue<O, P>
-) => {
+  newValue: Exclude<V, undefined>
+): E => {
   let value: any = o;
   let accessor: string | number | undefined;
   let rest: string | undefined = path;
@@ -84,7 +89,8 @@ export const changeValueOnPath = <O, P extends Path<O>>(
     if (!rest) break;
     value = value?.[accessor];
   }
-  if (!accessor) return newValue as O;
+  if (rest) return undefined as E;
+  if (accessor === undefined) return newValue;
   value[accessor] = newValue;
-  return o;
+  return o as E;
 };
