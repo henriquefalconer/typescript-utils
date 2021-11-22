@@ -158,3 +158,34 @@ const result = accessValueOnPath(data, "foo.qox[1].quux.quuz.corge")
 // Result: 
 { grault: 20 }
 ```
+
+---
+
+### changeValueOnPath:
+
+```node
+// Data: 
+const data = {
+  foo: {
+    qox: [
+      { quux: { quuz: { corge: { grault: 10 } } } },
+      { quux: { quuz: { corge: { grault: 20 } } } },
+    ],
+  },
+  bar: "baz",
+}
+
+// Operation: 
+const result = changeValueOnPath(data, "foo.qox[1].quux.quuz.corge", { grault: 30 })
+
+// Result: 
+{
+  foo: {
+    qox: [
+      { quux: { quuz: { corge: { grault: 10 } } } },
+      { quux: { quuz: { corge: { grault: 30 } } } },
+    ],
+  },
+  bar: "baz",
+}
+```
