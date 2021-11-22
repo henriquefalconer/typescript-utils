@@ -6,7 +6,7 @@ import {
 } from "./utils/nullishConversion";
 import segregateArray from "./utils/segregateArray";
 import toggleArrayItem from "./utils/toggleArrayItem";
-import accessValueOnPath from "./utils/accessValueOnPath";
+import { accessValueOnPath, changeValueOnPath } from "./utils/valueOnPath";
 import wait from "./utils/wait";
 
 import { prepareLog } from "./utils/expandedConsoleLog";
@@ -110,6 +110,21 @@ const accessValueOnPathDemo = () =>
     (entry) => accessValueOnPath(entry, "foo.qox[1].quux.quuz.corge")
   );
 
+const changeValueOnPathDemo = () =>
+  demoPrint(
+    {
+      foo: {
+        qox: [
+          { quux: { quuz: { corge: { grault: 10 } } } },
+          { quux: { quuz: { corge: { grault: 20 } } } },
+        ],
+      },
+      bar: "baz",
+    },
+    (entry) =>
+      changeValueOnPath(entry, "foo.qox[1].quux.quuz.corge", { grault: 30 })
+  );
+
 const runDemos = async () => {
   const demos = [
     alterObjectValuesDemo,
@@ -121,6 +136,7 @@ const runDemos = async () => {
     waitDemo,
     expandedConsoleLogDemo,
     accessValueOnPathDemo,
+    changeValueOnPathDemo,
   ];
 
   total = demos.length;
